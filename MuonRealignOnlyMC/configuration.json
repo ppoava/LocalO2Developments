@@ -1,0 +1,165 @@
+{
+  "table-maker-m-c": {
+    "cfgAddTrackHistogram": "muon",
+    "processPbPb": "0",
+    "cfgRefitGlobalMuon": "1",
+    "cfgDetailedQA": "1",
+    "cfgMCsignals": "",
+    "cfgIsRun2": "0",
+    "grpmagPathRun2": "GLO/GRP/GRP",
+    "cfgEventCuts": "eventStandardSel8ppQuality",
+    "processPP": "0",
+    "cfgKeepBestMatch": "0",
+    "cfgMuonCuts": "muonQualityCuts",
+    "cfgPropMuon": "1",
+    "cfgAddMuonHistogram": "muon",
+    "processOnlyBCs": "0",
+    "cfgQA": "1",
+    "cfgMuonMatchEtaMax": "-2.5",
+    "processPbPbBarrelOnly": "0",
+    "processPbPbMuonOnly": "0",
+    "cfgMCsignalsJSON": "",
+    "cfgAddJSONHistograms": "",
+    "cfgPropTrack": "0",
+    "cfgBarrelTrackCuts": "jpsiPID1",
+    "geoPath": "GLO/Config/GeometryAligned",
+    "cfgEventCutsJSON": "",
+    "cfgMuonMatchEtaMin": "-4",
+    "cfgMuonCutsJSON": "",
+    "processPPMuonOnly": "1",
+    "cfgBarrelTrackCutsJSON": "",
+    "cfgAddMCTruthHistogram": "muon",
+    "cfgAddEventHistogram": "vtx",
+    "processPPBarrelOnly": "0",
+    "grpmagPath": "GLO/Config/GRPMagField",
+    "ccdb-url": "http://alice-ccdb.cern.ch"
+  },
+  "timestamp-task": {
+    "rct-path": "RCT/Info/RunInformation",
+    "orbit-reset-path": "CTP/Calib/OrbitReset",
+    "fatalOnInvalidTimestamp": "0",
+    "ccdb-url": "http://alice-ccdb.cern.ch",
+    "verbose": "0",
+    "isRun2MC": "-1"
+  },
+  "bc-selection-task": {
+    "ITSROFrameStartBorderMargin": "-1",
+    "checkRunDurationLimits": "0",
+    "triggerBcShift": "999",
+    "TimeFrameStartBorderMargin": "-1",
+    "processRun3": "1",
+    "processRun2": "0",
+    "TimeFrameEndBorderMargin": "-1",
+    "ITSROFrameEndBorderMargin": "-1",
+    "maxInactiveChipsPerLayer": {
+      "values": [
+        8,
+        8,
+        8,
+        111,
+        111,
+        195,
+        195
+      ]
+    }
+  },
+  "event-selection-task": {
+    "TimeRangeVetoOnCollStandard": "10",
+    "confSigmaBCforHighPtTracks": "4",
+    "FT0CamplPerCollCutVetoOnCollInTimeRange": "8000",
+    "processRun3": "1",
+    "TimeIntervalForOccupancyCalculationMin": "-40",
+    "processRun2": "0",
+    "TimeIntervalForOccupancyCalculationMax": "100",
+    "EpsilonVzDiffVetoInROF": "0.3",
+    "isMC": "0",
+    "maxDiffZvtxFT0vsPV": "1",
+    "UseWeightsForOccupancyEstimator": "1",
+    "muonSelection": "0",
+    "EpsilonDistanceForVzDependentVetoTPC": "2.5",
+    "FT0CamplPerCollCutVetoOnCollInROF": "5000",
+    "TimeRangeVetoOnCollNarrow": "2"
+  },
+  "fwd-track-extension": {},
+  "mc-collision-converter": {},
+  "tracks-extra-spawner": {},
+  "tracks-extra-v002-converter": {
+    "processV000ToV002": "0",
+    "processV001ToV002": "1"
+  },
+  "fwd-track-to-collision-association": {
+    "timeMargin": "0",
+    "processFwdAssocWithTime": "1",
+    "bcWindowForOneSigma": "115",
+    "processFwdStandardAssoc": "0",
+    "nSigmaForTimeCompat": "3",
+    "includeUnassigned": "0",
+    "fillTableOfCollIdsPerTrack": "1",
+    "processMFTStandardAssoc": "0",
+    "processMFTAssocWithTime": "1"
+  },
+  "multiplicity-table": {
+    "processRun3MFT": "0",
+    "processRun3": "1",
+    "processRun2": "0",
+    "enabledTables": {
+      "values": [
+        [
+          -1
+        ],
+        [
+          -1
+        ],
+        [
+          -1
+        ],
+        [
+          -1
+        ],
+        [
+          -1
+        ],
+        [
+          -1
+        ],
+        [
+          1
+        ],
+        [
+          1
+        ],
+        [
+          -1
+        ],
+        [
+          -1
+        ],
+        [
+          -1
+        ],
+        [
+          -1
+        ],
+        [
+          -1
+        ],
+        [
+          -1
+        ]
+      ]
+    },
+    "fractionOfEvents": "2",
+    "processMC2Mults": "0",
+    "min_pt_globaltrack": "0.15",
+    "min_ncluster_its_globaltrack": "5",
+    "max_pt_globaltrack": "1e+10",
+    "processGlobalTrackingCounters": "0",
+    "min_ncluster_itsib_globaltrack": "1",
+    "doVertexZeq": "1",
+    "produceHistograms": "0",
+    "reconstructionPass": "",
+    "ccdbpath": "Centrality/Calibration",
+    "ccdburl": "http://alice-ccdb.cern.ch",
+    "processMC": "0"
+  }
+}

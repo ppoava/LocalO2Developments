@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# this one works for processPPMuonRealignOnly
+# https://its.cern.ch/jira/browse/O2-5786
+o2-analysis-dq-table-maker-mc-with-assoc -b --configuration json://configurationPP_realign.json | o2-analysis-timestamp -b --configuration json://configurationPP_realign.json | o2-analysis-event-selection -b --configuration json://configurationPP_realign.json | o2-analysis-fwdtrackextension -b --configuration json://configurationPP_realign.json | o2-analysis-mccollision-converter -b --configuration json://configurationPP_realign.json | o2-analysis-tracks-extra-v002-converter -b --configuration json://configurationPP_realign.json | o2-analysis-fwdtrack-to-collision-associator -b --configuration json://configurationPP_realign.json  | o2-analysis-multiplicity-table -b --configuration json://configurationPP_realign.json | o2-analysis-muon-realignment -b --configuration json://configurationPP_realign.json --aod-file Hyperloop_non_prompt_Jpsi_MC_AO2D.root --aod-writer-json OutputDirector.json
+
+# this one works for processPbPbMuonRealignOnly
+# https://its.cern.ch/jira/browse/O2-5339 (small)
+# https://alimonitor.cern.ch/hyperloop/view-dataset/1333
+# o2-analysis-dq-table-maker-mc-with-assoc -b --configuration json://configurationPbPb_realign.json | o2-analysis-timestamp -b --configuration json://configurationPbPb_realign.json | o2-analysis-fwdtrackextension -b --configuration json://configurationPbPb_realign.json | o2-analysis-event-selection -b --configuration json://configurationPbPb_realign.json | o2-analysis-centrality-table -b --configuration json://configurationPbPb_realign.json | o2-analysis-mccollision-converter -b --configuration json://configurationPbPb_realign.json | o2-analysis-tracks-extra-v002-converter -b --configuration json://configurationPbPb_realign.json | o2-analysis-fwdtrack-to-collision-associator -b --configuration json://configurationPbPb_realign.json | o2-analysis-multiplicity-table -b --configuration json://configurationPbPb_realign.json | o2-analysis-muon-realignment -b --configuration json://configurationPbPb_realign.json --aod-file AO2D_PbPbMC.root --aod-writer-json OutputDirector.json
