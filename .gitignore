@@ -1,1 +1,6 @@
 *.root
+*.pdf
+*.json
+*.txt
+.DS_Store
+core_dump_*
