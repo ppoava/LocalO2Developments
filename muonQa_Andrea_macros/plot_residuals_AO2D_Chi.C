@@ -1,4 +1,7 @@
 #include <MFTTracking/Constants.h>
+// NOTE: not taken into account by git diff:
+// 1. alignment (Andrea) -> Alignment (Chi)
+// 2. mixed-event, same-event seperate on another hierarchy level c.f. Andrea c.f. Chi
 
 TFile* fAnalysisResults;
 
@@ -83,7 +86,7 @@ double DoubleSidedCBwithLinBgd(double* x, double *par)
 
 void PlotDCAProjection(std::string histName, float yMin, float yMax, int projRebin, TCanvas& c, bool printFits = false)
 {
-  std::string fullHistName = std::string("qa-muon/Alignment/") + histName;
+  std::string fullHistName = std::string("qa-muon/Alignment/same-event") + histName;
   TH2* histogram2 = GetTH2(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram << std::endl;
   if (!histogram2)
@@ -181,7 +184,7 @@ void PlotDCAProjection(std::string histName, float yMin, float yMax, int projReb
 
 std::pair<double, double> PlotDCAMFT(std::string histName)
 {
-  std::string fullHistName = std::string("qa-muon/Alignment/") + histName;
+  std::string fullHistName = std::string("qa-muon/Alignment/same-event/") + histName;
   TH2* histogram = GetTH2(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram << std::endl;
   if (!histogram)
@@ -195,7 +198,7 @@ std::pair<double, double> PlotDCAMFT(std::string histName)
 
 std::pair<double, double> PlotDCAMCH(std::string histName)
 {
-  std::string fullHistName = std::string("qa-muon/Alignment/") + histName;
+  std::string fullHistName = std::string("qa-muon/Alignment/same-event/") + histName;
   TH1* histogram = GetTH1(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram << std::endl;
   if (!histogram)
@@ -406,7 +409,7 @@ std::pair<double, double> PlotDXY(std::string histName, TCanvas& c, bool printFi
   c.Clear();
   c.Divide(2, 2);
 
-  std::string fullHistName = std::string("qa-muon/Alignment/residuals/") + histName;
+  std::string fullHistName = std::string("qa-muon/Alignment/same-event/residuals/") + histName;
   TH2* histogram2 = GetTH2(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram2 << std::endl;
   if (!histogram2) return {};
@@ -414,7 +417,7 @@ std::pair<double, double> PlotDXY(std::string histName, TCanvas& c, bool printFi
   c.cd(1);
   histogram2->Draw("col");
 
-  std::string fullHistNameME = std::string("qa-muon/mixed-events/Alignment/residuals/") + histName;
+  std::string fullHistNameME = std::string("qa-muon/Alignment/mixed-event/residuals/") + histName;
   TH2* histogram2ME = GetTH2(fAnalysisResults, fullHistNameME);
 
   c.cd(2);
@@ -481,7 +484,7 @@ std::array<std::pair<double, double>, 2> PlotDXYvsDE(std::string histName, int c
   c.Clear();
   c.Divide(2, 2);
 
-  std::string fullHistName = std::string("qa-muon/Alignment/residuals/") + histName;
+  std::string fullHistName = std::string("qa-muon/Alignment/same-event/residuals/") + histName;
   TH2* histogram2 = GetTH2(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram2 << std::endl;
   if (!histogram2) return {};
@@ -489,7 +492,7 @@ std::array<std::pair<double, double>, 2> PlotDXYvsDE(std::string histName, int c
   c.cd(1);
   histogram2->Draw("col");
 
-  std::string fullHistNameME = std::string("qa-muon/mixed-events/Alignment/residuals/") + histName;
+  std::string fullHistNameME = std::string("qa-muon/Alignment/mixed-event/residuals/") + histName;
   TH2* histogram2ME = GetTH2(fAnalysisResults, fullHistNameME);
 
   c.cd(2);
