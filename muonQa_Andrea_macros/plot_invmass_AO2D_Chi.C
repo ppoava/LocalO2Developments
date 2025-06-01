@@ -120,9 +120,9 @@ void FitJPsi(TH1* mass_all)
 }
 
 
-void plot_invmass_AO2D()
+void plot_invmass_AO2D_Chi()
 {
-  fAnalysisResults = new TFile("AnalysisResultsFull.root");
+  fAnalysisResults = new TFile("AnalysisResults_Chi.root");
   //fAnalysisResults = new TFile("AnalysisResults/AnalysisResultsFull.root");
   // fAnalysisResults = new TFile("AnalysisResults-LHC24am-qa-with-MFT-realignment/AnalysisResultsFull.root");
   //fAnalysisResults = new TFile("AnalysisResults-LHC24am-qa-no-MFT-realignment/AnalysisResultsFull.root");
@@ -143,8 +143,8 @@ void plot_invmass_AO2D()
   
   TCanvas c("c", "c", 1200, 800);
 
-  TH1* invmassMuonTracks1 = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMass_MuonKine_MuonCuts");
-  TH1* invmassMuonTracks1ME = GetTH1(fAnalysisResults, "qa-muon/dimuon/mixed-events/invariantMass_MuonKine_MuonCuts");
+  TH1* invmassMuonTracks1 = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_MuonKine_MuonCuts");
+  TH1* invmassMuonTracks1ME = GetTH1(fAnalysisResults, "muon-qa/dimuon/mixed-events/invariantMass_MuonKine_MuonCuts");
   NormalizeInvmassME(invmassMuonTracks1, invmassMuonTracks1ME);
   invmassMuonTracks1->SetLineColor(kRed);
   invmassMuonTracks1->Rebin(rebin);
@@ -154,8 +154,8 @@ void plot_invmass_AO2D()
   FitJPsi(invmassMuonTracks1);
   c.SaveAs("invmass_AO2D.pdf(");
 
-  TH1* invmassMuonTracks2 = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMass_MuonKine_GlobalMuonCuts");
-  TH1* invmassMuonTracks2ME = GetTH1(fAnalysisResults, "qa-muon/dimuon/mixed-events/invariantMass_MuonKine_GlobalMuonCuts");
+  TH1* invmassMuonTracks2 = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_MuonKine_GlobalMuonCuts");
+  TH1* invmassMuonTracks2ME = GetTH1(fAnalysisResults, "muon-qa/dimuon/mixed-events/invariantMass_MuonKine_GlobalMuonCuts");
   NormalizeInvmassME(invmassMuonTracks2, invmassMuonTracks2ME);
   invmassMuonTracks2->SetLineColor(kBlue - 2);
   invmassMuonTracks2->Rebin(rebin);
@@ -165,8 +165,8 @@ void plot_invmass_AO2D()
   FitJPsi(invmassMuonTracks2);
   c.SaveAs("invmass_AO2D.pdf");
 
-  TH1* invmassMuonTracks3 = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMass_MuonKine_GlobalMatchesCuts");
-  TH1* invmassMuonTracks3ME = GetTH1(fAnalysisResults, "qa-muon/dimuon/mixed-events/invariantMass_MuonKine_GlobalMatchesCuts");
+  TH1* invmassMuonTracks3 = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_MuonKine_GlobalMatchesCuts");
+  TH1* invmassMuonTracks3ME = GetTH1(fAnalysisResults, "muon-qa/dimuon/mixed-events/invariantMass_MuonKine_GlobalMatchesCuts");
   NormalizeInvmassME(invmassMuonTracks3, invmassMuonTracks3ME);
   invmassMuonTracks3->SetLineColor(kGreen - 2);
   invmassMuonTracks3->Rebin(rebin);
@@ -176,8 +176,8 @@ void plot_invmass_AO2D()
   FitJPsi(invmassMuonTracks3);
   c.SaveAs("invmass_AO2D.pdf");
 
-  TH1* invmassMuonTracks4 = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMass_GlobalMuonKine_GlobalMatchesCuts");
-  TH1* invmassMuonTracks4ME = GetTH1(fAnalysisResults, "qa-muon/dimuon/mixed-events/invariantMass_GlobalMuonKine_GlobalMatchesCuts");
+  TH1* invmassMuonTracks4 = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_GlobalMuonKine_GlobalMatchesCuts");
+  TH1* invmassMuonTracks4ME = GetTH1(fAnalysisResults, "muon-qa/dimuon/mixed-events/invariantMass_GlobalMuonKine_GlobalMatchesCuts");
   NormalizeInvmassME(invmassMuonTracks4, invmassMuonTracks4ME);
   invmassMuonTracks4->SetLineColor(kMagenta);
   invmassMuonTracks4->Rebin(rebin);
@@ -187,8 +187,8 @@ void plot_invmass_AO2D()
   FitJPsi(invmassMuonTracks4);
   c.SaveAs("invmass_AO2D.pdf");
 
-  TH1* invmassMuonTracks5 = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMass_ScaledMftKine_GlobalMatchesCuts");
-  TH1* invmassMuonTracks5ME = GetTH1(fAnalysisResults, "qa-muon/dimuon/mixed-events/invariantMass_ScaledMftKine_GlobalMatchesCuts");
+  TH1* invmassMuonTracks5 = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_ScaledMftKine_GlobalMatchesCuts");
+  TH1* invmassMuonTracks5ME = GetTH1(fAnalysisResults, "muon-qa/dimuon/mixed-events/invariantMass_ScaledMftKine_GlobalMatchesCuts");
   NormalizeInvmassME(invmassMuonTracks5, invmassMuonTracks5ME);
   invmassMuonTracks5->SetLineColor(kBlack);
   invmassMuonTracks5->Rebin(rebin);
@@ -198,7 +198,7 @@ void plot_invmass_AO2D()
   FitJPsi(invmassMuonTracks5);
   c.SaveAs("invmass_AO2D.pdf");
 
-
+  // TODO: add top-top/top-bottom/bottom-bottom and left-right/left-left/right-right combinations here!!
   invmassMuonTracks5->Draw("hist");
   invmassMuonTracks4->Draw("same");
   c.SaveAs("invmass_AO2D.pdf");
@@ -207,8 +207,8 @@ void plot_invmass_AO2D()
   c.Divide(2,2);
   // top-top
   c.cd(1);
-  TH1* invmass = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMass_ScaledMftKine_GlobalMatchesCuts_TT");
-  TH1* invmassME = GetTH1(fAnalysisResults, "qa-muon/dimuon/mixed-events/invariantMass_ScaledMftKine_GlobalMatchesCuts_TT");
+  TH1* invmass = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_ScaledMftKine_GlobalMatchesCuts_TT");
+  TH1* invmassME = GetTH1(fAnalysisResults, "muon-qa/dimuon/mixed-events/invariantMass_ScaledMftKine_GlobalMatchesCuts_TT");
   if (invmass) {
   NormalizeInvmassME(invmass, invmassME);
   invmass->SetLineColor(kBlack);
@@ -220,8 +220,8 @@ void plot_invmass_AO2D()
   }
   // top-bottom
   c.cd(2);
-  invmass = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMass_ScaledMftKine_GlobalMatchesCuts_TB");
-  invmassME = GetTH1(fAnalysisResults, "qa-muon/dimuon/mixed-events/invariantMass_ScaledMftKine_GlobalMatchesCuts_TB");
+  invmass = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_ScaledMftKine_GlobalMatchesCuts_TB");
+  invmassME = GetTH1(fAnalysisResults, "muon-qa/dimuon/mixed-events/invariantMass_ScaledMftKine_GlobalMatchesCuts_TB");
   if (invmass) {
   NormalizeInvmassME(invmass, invmassME);
   invmass->SetLineColor(kBlack);
@@ -233,8 +233,8 @@ void plot_invmass_AO2D()
   }
   // bottom-top
   c.cd(3);
-  invmass = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMass_ScaledMftKine_GlobalMatchesCuts_BT");
-  invmassME = GetTH1(fAnalysisResults, "qa-muon/dimuon/mixed-events/invariantMass_ScaledMftKine_GlobalMatchesCuts_BT");
+  invmass = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_ScaledMftKine_GlobalMatchesCuts_BT");
+  invmassME = GetTH1(fAnalysisResults, "muon-qa/dimuon/mixed-events/invariantMass_ScaledMftKine_GlobalMatchesCuts_BT");
   if (invmass) {
   NormalizeInvmassME(invmass, invmassME);
   invmass->SetLineColor(kBlack);
@@ -246,8 +246,8 @@ void plot_invmass_AO2D()
   }
   // bottom-bottom
   c.cd(4);
-  invmass = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMass_ScaledMftKine_GlobalMatchesCuts_BB");
-  invmassME = GetTH1(fAnalysisResults, "qa-muon/dimuon/mixed-events/invariantMass_ScaledMftKine_GlobalMatchesCuts_BB");
+  invmass = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_ScaledMftKine_GlobalMatchesCuts_BB");
+  invmassME = GetTH1(fAnalysisResults, "muon-qa/dimuon/mixed-events/invariantMass_ScaledMftKine_GlobalMatchesCuts_BB");
   if (invmass) {
   NormalizeInvmassME(invmass, invmassME);
   invmass->SetLineColor(kBlack);
@@ -265,14 +265,14 @@ void plot_invmass_AO2D()
   TH1* histogram;
   TH2* histogram2;
 
-  histogram2 = GetTH2(fAnalysisResults, "qa-muon/dimuon/invariantMass_MuonKine_vs_GlobalMuonKine");
+  histogram2 = GetTH2(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_MuonKine_vs_GlobalMuonKine");
   histogram2->GetXaxis()->SetRangeUser(massMin, massMax);
   histogram2->GetYaxis()->SetRangeUser(massMin, massMax);
   histogram2->Draw("col");
 
   c.SaveAs("invmass_AO2D.pdf");
 
-  histogram2 = GetTH2(fAnalysisResults, "qa-muon/dimuon/invariantMass_ScaledMftKine_vs_GlobalMuonKine");
+  histogram2 = GetTH2(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_ScaledMftKine_vs_GlobalMuonKine");
   histogram2->GetXaxis()->SetRangeUser(massMin, massMax);
   histogram2->GetYaxis()->SetRangeUser(massMin, massMax);
   histogram2->Draw("col");
@@ -280,26 +280,26 @@ void plot_invmass_AO2D()
   c.SaveAs("invmass_AO2D.pdf");
 
   c.SetLogy(kTRUE);
-  histogram = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMassFull_MuonKine_MuonCuts");
+  histogram = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMassFull_MuonKine_MuonCuts");
   histogram->Draw();
   c.SaveAs("invmass_AO2D.pdf");
   histogram->GetXaxis()->SetRangeUser(1.0, 15.0);
   c.SaveAs("invmass_AO2D.pdf");
 
   c.SetLogy(kTRUE);
-  histogram = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMassFull_ScaledMftKine_GlobalMatchesCuts");
+  histogram = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMassFull_ScaledMftKine_GlobalMatchesCuts");
   histogram->Draw();
   c.SaveAs("invmass_AO2D.pdf");
   histogram->GetXaxis()->SetRangeUser(1.0, 15.0);
   c.SaveAs("invmass_AO2D.pdf");
 
-  TH1* histogramLSL = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMass_GlobalMuonKine_GlobalMatchesCuts_leading_subleading");
+  TH1* histogramLSL = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_GlobalMuonKine_GlobalMatchesCuts_leading_subleading");
   histogramLSL->Rebin(4);
   histogramLSL->Draw();
 
   c.SaveAs("invmass_AO2D.pdf");
 
-  TH1* histogramSLL = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMass_GlobalMuonKine_GlobalMatchesCuts_subleading_leading");
+  TH1* histogramSLL = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_GlobalMuonKine_GlobalMatchesCuts_subleading_leading");
   histogramSLL->Rebin(4);
   histogramSLL->Draw();
 
@@ -311,14 +311,14 @@ void plot_invmass_AO2D()
 
   c.SaveAs("invmass_AO2D.pdf");
 
-  histogram = GetTH1(fAnalysisResults, "qa-muon/dimuon/invariantMass_GlobalMuonKine_GlobalMatchesCuts_subleading_subleading");
+  histogram = GetTH1(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_GlobalMuonKine_GlobalMatchesCuts_subleading_subleading");
   histogram->SetTitle("M_{#mu^{+}#mu^{-}} - sub-leading matches");
   histogram->Rebin(4);
   histogram->Draw();
 
   c.SaveAs("invmass_AO2D.pdf");
 
-  histogram2 = GetTH2(fAnalysisResults, "qa-muon/dimuon/invariantMass_GlobalMuonKine_subleading_vs_leading");
+  histogram2 = GetTH2(fAnalysisResults, "muon-qa/dimuon/same-event/invariantMass_GlobalMuonKine_subleading_vs_leading");
   histogram2->GetXaxis()->SetRangeUser(1, 5);
   histogram2->GetYaxis()->SetRangeUser(1, 5);
   histogram2->Draw("col");
