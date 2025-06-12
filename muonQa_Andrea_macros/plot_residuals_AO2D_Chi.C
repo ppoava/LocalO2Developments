@@ -13,7 +13,11 @@ constexpr int nPoints = 4;
 
 TH1* GetTH1(TFile* f, TString histname)
 {
-  return (TH1*)f->Get(histname);
+  std::cout << "Reading " << histname << " from TFile" << std::endl;
+  TH1* hist = (TH1*)f->Get(histname);
+  if (hist == nullptr) { std::cout << ">> error retrieving histogram" << std::endl; }
+  else { std::cout << ">> histogram sucessfully read from TFile" << std::endl; }
+  return hist;
 
   //TString histname = TString::Format("ST%d/DE%d/Occupancy_B_XY_%d", station, de, de);
   TKey *key = f->GetKey(histname);
@@ -25,7 +29,11 @@ TH1* GetTH1(TFile* f, TString histname)
 
 TH2* GetTH2(TFile* f, TString histname)
 {
-  return (TH2*)f->Get(histname);
+  std::cout << "Reading " << histname << " from TFile" << std::endl;
+  TH2* hist = (TH2*)f->Get(histname);
+  if (hist == nullptr) { std::cout << ">> error retrieving histogram" << std::endl; }
+  else { std::cout << ">> histogram sucessfully read from TFile" << std::endl; }
+  return hist;
 
   //TString histname = TString::Format("ST%d/DE%d/Occupancy_B_XY_%d", station, de, de);
   TKey *key = f->GetKey(histname);
@@ -86,7 +94,7 @@ double DoubleSidedCBwithLinBgd(double* x, double *par)
 
 void PlotDCAProjection(std::string histName, float yMin, float yMax, int projRebin, TCanvas& c, bool printFits = false)
 {
-  std::string fullHistName = std::string("qa-muon/Alignment/same-event") + histName;
+  std::string fullHistName = std::string("muon-qa/Alignment/same-event") + histName;
   TH2* histogram2 = GetTH2(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram << std::endl;
   if (!histogram2)
@@ -184,7 +192,7 @@ void PlotDCAProjection(std::string histName, float yMin, float yMax, int projReb
 
 std::pair<double, double> PlotDCAMFT(std::string histName)
 {
-  std::string fullHistName = std::string("qa-muon/Alignment/same-event/") + histName;
+  std::string fullHistName = std::string("muon-qa/Alignment/same-event/") + histName;
   TH2* histogram = GetTH2(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram << std::endl;
   if (!histogram)
@@ -198,7 +206,7 @@ std::pair<double, double> PlotDCAMFT(std::string histName)
 
 std::pair<double, double> PlotDCAMCH(std::string histName)
 {
-  std::string fullHistName = std::string("qa-muon/Alignment/same-event/") + histName;
+  std::string fullHistName = std::string("muon-qa/Alignment/same-event/") + histName;
   TH1* histogram = GetTH1(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram << std::endl;
   if (!histogram)
@@ -409,7 +417,7 @@ std::pair<double, double> PlotDXY(std::string histName, TCanvas& c, bool printFi
   c.Clear();
   c.Divide(2, 2);
 
-  std::string fullHistName = std::string("qa-muon/Alignment/same-event/residuals/") + histName;
+  std::string fullHistName = std::string("muon-qa/Alignment/same-event/Residuals/") + histName;
   TH2* histogram2 = GetTH2(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram2 << std::endl;
   if (!histogram2) return {};
@@ -417,7 +425,7 @@ std::pair<double, double> PlotDXY(std::string histName, TCanvas& c, bool printFi
   c.cd(1);
   histogram2->Draw("col");
 
-  std::string fullHistNameME = std::string("qa-muon/Alignment/mixed-event/residuals/") + histName;
+  std::string fullHistNameME = std::string("muon-qa/Alignment/mixed-event/Residuals/") + histName;
   TH2* histogram2ME = GetTH2(fAnalysisResults, fullHistNameME);
 
   c.cd(2);
@@ -484,7 +492,7 @@ std::array<std::pair<double, double>, 2> PlotDXYvsDE(std::string histName, int c
   c.Clear();
   c.Divide(2, 2);
 
-  std::string fullHistName = std::string("qa-muon/Alignment/same-event/residuals/") + histName;
+  std::string fullHistName = std::string("muon-qa/Alignment/same-event/Residuals/") + histName;
   TH2* histogram2 = GetTH2(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram2 << std::endl;
   if (!histogram2) return {};
@@ -492,7 +500,7 @@ std::array<std::pair<double, double>, 2> PlotDXYvsDE(std::string histName, int c
   c.cd(1);
   histogram2->Draw("col");
 
-  std::string fullHistNameME = std::string("qa-muon/Alignment/mixed-event/residuals/") + histName;
+  std::string fullHistNameME = std::string("muon-qa/Alignment/mixed-event/Residuals/") + histName;
   TH2* histogram2ME = GetTH2(fAnalysisResults, fullHistNameME);
 
   c.cd(2);
@@ -721,10 +729,16 @@ void PlotZTrendPNLR(int n, double* xv, std::array<std::array<std::array<std::pai
   c.SaveAs("residuals_AO2D.pdf");
 }
 
-void plot_residuals_AO2D_Chi()
+void plot_residuals_AO2D_Chi() 
 {
-  // fAnalysisResults = new TFile("AnalysisResults_Chi.root");
-  fAnalysisResults = new TFile("AnalysisResultsFull.root");
+  skeleton_plot_residuals_AO2D_Chi("AnalysisResults_Chi.root", "Chi1", 1, 1);
+  skeleton_plot_residuals_AO2D_Chi("AnalysisResults_Chi_copy.root", "Chi copy", 3, 2);
+}
+
+void skeleton_plot_residuals_AO2D_Chi(TString *fName, TString *label, TLineStye *lineStyle, TLineWidth *lineWidth)
+{
+  fAnalysisResults = new TFile("AnalysisResults_Chi.root");
+  // fAnalysisResults = new TFile("AnalysisResultsFull.root");
 
   std::array<std::string, 4> quadrants = {"Q0", "Q1", "Q2", "Q3"};
   //std::array<std::string, 1> quadrants = {"Q0"};
@@ -855,7 +869,7 @@ void plot_residuals_AO2D_Chi()
       for (int j = 0; j < 2; j++) {
         bool print = false;
         //if (chamber == 0 && i == 0 && j == 0) print = true;
-        PlotDXY(topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dx_vs_phi", c, print);
+        PlotDXY("MFT/" + topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dx_vs_phi", c, print);
         //histDxVsY->SetTitle(std::format("{} {}-{} CH{}", histDxVsY->GetTitle(), topBottom[i], posNeg[j], (k+1)).c_str());
         //histDxVsY->SetTitle("TOTO");
         dxVsPhiHistograms[chamber][i][j] = histDxVsY;
@@ -865,7 +879,7 @@ void plot_residuals_AO2D_Chi()
       for (int j = 0; j < 2; j++) {
         bool print = false;
         //if (i == 9 && j == 0) print = true;
-        PlotDXY(topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dy_vs_phi", c, print);
+        PlotDXY("MFT/" + topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dy_vs_phi", c, print);
         //histDxVsY->SetTitle(std::format("{} {}-{} CH{}", histDxVsY->GetTitle(), topBottom[i], posNeg[j], (k+1)).c_str());
         dyVsPhiHistograms[chamber][i][j] = histDxVsY;
       }
@@ -909,7 +923,7 @@ void plot_residuals_AO2D_Chi()
       for (int j = 0; j < 2; j++) {
         bool print = false;
         //if (chamber == 9 && i == 0 && j == 0) print = true;
-        auto result = PlotDXYvsDE(topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dx_vs_de", chamber + 1, c, print);
+        auto result = PlotDXYvsDE("MFT/" + topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dx_vs_de", chamber + 1, c, print);
         meanDx_LR_TB_PN[i][j][0][chamber] = result[0];
         meanDx_LR_TB_PN[i][j][1][chamber] = result[1];
         //histDxVsY->SetTitle(std::format("{} {}-{} CH{}", histDxVsY->GetTitle(), topBottom[i], posNeg[j], (k+1)).c_str());
@@ -922,7 +936,7 @@ void plot_residuals_AO2D_Chi()
         bool print = false;
         //if (chamber == 9 && i == 0 && j == 0) print = true;
         if (chamber == 9 && i == 0 && j == 1) print = true;
-        auto result = PlotDXYvsDE(topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dy_vs_de", chamber + 1, c, print);
+        auto result = PlotDXYvsDE("MFT/" + topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dy_vs_de", chamber + 1, c, print);
         meanDy_LR_TB_PN[i][j][0][chamber] = result[0];
         meanDy_LR_TB_PN[i][j][1][chamber] = result[1];
         //histDxVsY->SetTitle(std::format("{} {}-{} CH{}", histDxVsY->GetTitle(), topBottom[i], posNeg[j], (k+1)).c_str());
@@ -966,13 +980,13 @@ void plot_residuals_AO2D_Chi()
     for (int j = 0; j < quadrants.size(); j++) {
       bool print = false;
       if (i == 9 && j == 0) print = true;
-      PlotDXY(quadrants[j] + "/CH" + std::to_string(i+1) + "/dx_vs_x", c, false);
+      PlotDXY("MCH/" + quadrants[j] + "/CH" + std::to_string(i+1) + "/dx_vs_x", c, false);
       dxVsXhistograms[i][j] = histDxVsY;
-      meanDx[j][i] = PlotDXY(quadrants[j] + "/CH" + std::to_string(i+1) + "/dx_vs_y", c, print);
+      meanDx[j][i] = PlotDXY("MCH/" + quadrants[j] + "/CH" + std::to_string(i+1) + "/dx_vs_y", c, print);
       dxVsYhistograms[i][j] = histDxVsY;
-      meanDy[j][i] = PlotDXY(quadrants[j] + "/CH" + std::to_string(i+1) + "/dy_vs_x", c, false);
+      meanDy[j][i] = PlotDXY("MCH/" + quadrants[j] + "/CH" + std::to_string(i+1) + "/dy_vs_x", c, false);
       dyVsXhistograms[i][j] = histDxVsY;
-      PlotDXY(quadrants[j] + "/CH" + std::to_string(i+1) + "/dy_vs_y", c, print);
+      PlotDXY("MCH/" + quadrants[j] + "/CH" + std::to_string(i+1) + "/dy_vs_y", c, print);
       dyVsYhistograms[i][j] = histDxVsY;
     }
   }
