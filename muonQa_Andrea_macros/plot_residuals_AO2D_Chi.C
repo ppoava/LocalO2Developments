@@ -788,10 +788,12 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
       // top/bottom
       int i = (q < 2) ? 0 : 1;
       // left/right
-      int j = (q == 1 || q ==2) ? 0 : 1;
-      // PlotDCAMFT(std::string("DCA/MFT/") + quadrants[q] + "/DCA_x_vs_z");
+      int j = (q == 1 || q == 2) ? 0 : 1;
+      PlotDCAMFT(std::string("DCA/MFT/") + quadrants[q] + "/DCA_x_vs_z");
     }
     c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
+    fOutput->cd();
+    c.Write();
 
     for (int q = 0; q < quadrants.size(); q++) {
       if (q == 0) c.cd(2);
@@ -801,7 +803,7 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
       // top/bottom
       int i = (q < 2) ? 0 : 1;
       // left/right
-      int j = (q == 1 || q ==2) ? 0 : 1;
+      int j = (q == 1 || q == 2) ? 0 : 1;
       PlotDCAProjection(label, std::string("DCA/MFT/") + quadrants[q] + "/DCA_x_vs_z", -0.1, 0.1, 1, c, false);
     }
     c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
@@ -814,10 +816,12 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
       // top/bottom
       int i = (q < 2) ? 0 : 1;
       // left/right
-      int j = (q == 1 || q ==2) ? 0 : 1;
-      // PlotDCAMFT(std::string("DCA/MFT/") + quadrants[q] + "/DCA_y_vs_z");
+      int j = (q == 1 || q == 2) ? 0 : 1;
+      PlotDCAMFT(std::string("DCA/MFT/") + quadrants[q] + "/DCA_y_vs_z");
     }
     c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
+    fOutput->cd();
+    c.Write();
 
     for (int q = 0; q < quadrants.size(); q++) {
       if (q == 0) c.cd(2);
@@ -827,8 +831,8 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
       // top/bottom
       int i = (q < 2) ? 0 : 1;
       // left/right
-      int j = (q == 1 || q ==2) ? 0 : 1;
-      // PlotDCAProjection(std::string("DCA/MFT/") + quadrants[q] + "/DCA_y_vs_z", -0.1, 0.1, 1, c, false);
+      int j = (q == 1 || q == 2) ? 0 : 1;
+      PlotDCAProjection(label, std::string("DCA/MFT/") + quadrants[q] + "/DCA_y_vs_z", -0.1, 0.1, 1, c, false);
     }
     c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
 
@@ -843,7 +847,7 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
         // top/bottom
         int i = (q < 2) ? 0 : 1;
         // left/right
-        int j = (q == 1 || q ==2) ? 0 : 1;
+        int j = (q == 1 || q == 2) ? 0 : 1;
         DCAx[i][j][k] = PlotDCAMCH(std::string("DCA/MCH/") + quadrants[q] + ((k == 0) ? "/DCA_x_pos" : "/DCA_x_neg"));
       }
       c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
