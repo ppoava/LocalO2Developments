@@ -19,8 +19,9 @@
     "processPbPbBarrelOnly": "0",
     "processPbPbMuonOnly": "0",
     "cfgMCsignalsJSON": "",
-    "processPPMuonRealignOnly": "1",
-    "processPbPbMuonRealignOnly": "0",
+    "processPPRealignedMuonOnly": "1",
+    "processPbPbRealignedMuonOnly": "0",
+    "processPbPbWithFilterBarrelOnly": "0",
     "cfgAddJSONHistograms": "",
     "cfgPropTrack": "0",
     "cfgBarrelTrackCuts": "jpsiPID1",
@@ -29,6 +30,7 @@
     "cfgMuonMatchEtaMin": "-4",
     "cfgMuonCutsJSON": "",
     "processPPMuonOnly": "0",
+    "processPPMuonOnlyBasic": "0",
     "cfgBarrelTrackCutsJSON": "",
     "cfgAddMCTruthHistogram": "muon",
     "cfgAddEventHistogram": "vtx",
@@ -178,7 +180,7 @@
     "reconstructionPass": "",
     "ccdbpath": "Centrality/Calibration",
     "ccdburl": "http://alice-ccdb.cern.ch",
-    "processMC": "0"
+    "processMC": "1"
   }
 }
 
