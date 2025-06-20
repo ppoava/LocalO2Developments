@@ -4,7 +4,11 @@ double scaleME = 1;
 
 TH1* GetTH1(TFile* f, TString histname)
 {
-  return (TH1*)f->Get(histname);
+  std::cout << "Reading " << histname << " from TFile" << std::endl;
+  TH1* hist = (TH1*)f->Get(histname);
+  if (hist == nullptr) { std::cout << ">> error retrieving histogram" << std::endl; }
+  else { std::cout << ">> histogram sucessfully read from TFile" << std::endl; }
+  return hist;
 
   //TString histname = TString::Format("ST%d/DE%d/Occupancy_B_XY_%d", station, de, de);
   TKey *key = f->GetKey(histname);
@@ -16,7 +20,11 @@ TH1* GetTH1(TFile* f, TString histname)
 
 TH2* GetTH2(TFile* f, TString histname)
 {
-  return (TH2*)f->Get(histname);
+  std::cout << "Reading " << histname << " from TFile" << std::endl;
+  TH2* hist = (TH2*)f->Get(histname);
+  if (hist == nullptr) { std::cout << ">> error retrieving histogram" << std::endl; }
+  else { std::cout << ">> histogram sucessfully read from TFile" << std::endl; }
+  return hist;
 
   //TString histname = TString::Format("ST%d/DE%d/Occupancy_B_XY_%d", station, de, de);
   TKey *key = f->GetKey(histname);
