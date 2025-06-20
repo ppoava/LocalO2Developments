@@ -92,9 +92,9 @@ double DoubleSidedCBwithLinBgd(double* x, double *par)
   return(par[0] * DoubleSidedCB2(x[0], par[1],par[2],par[3],par[4],par[5],par[6]) + par[7] + x[0] * par[8]);
 }
 
-void PlotDCAProjection(TString label, std::string histName, float yMin, float yMax, int projRebin, TCanvas& c, bool printFits = false)
+void PlotDCAProjection(TString muonQaId, TString label, TFile *fOutput, std::string histName, float yMin, float yMax, int projRebin, TCanvas& c, bool printFits = false)
 {
-  std::string fullHistName = std::string("muon-qa/Alignment/same-event") + histName;
+  std::string fullHistName = std::string(Form("%s/Alignment/same-event/", muonQaId.Data())) + histName;
   TH2* histogram2 = GetTH2(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram << std::endl;
   if (!histogram2)
@@ -183,16 +183,17 @@ void PlotDCAProjection(TString label, std::string histName, float yMin, float yM
   histogramMean->Draw("E");
 
   std::cout << std::format("Slope: {:0.4f} mm / 10 m", linFit.GetParameter(1) * 1000 * 10) << std::endl;
-  //c.SaveAs(Form("%s_residuals_AO2D.pdf", label));
-  //histogramSigma->Draw("E");
-  //c.SaveAs(Form("%s_residuals_AO2D.pdf", label));
+  // histogramSigma->Draw("E");
+  // c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
+  // fOutput->cd();
+  // c.Write();
 
   histDxVsY = histogramMean;
 }
 
-std::pair<double, double> PlotDCAMFT(std::string histName)
+std::pair<double, double> PlotDCAMFT(TString muonQaId, std::string histName)
 {
-  std::string fullHistName = std::string("muon-qa/Alignment/same-event/") + histName;
+  std::string fullHistName = std::string(Form("%s/Alignment/same-event/", muonQaId.Data())) + histName;
   TH2* histogram = GetTH2(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram << std::endl;
   if (!histogram)
@@ -204,9 +205,9 @@ std::pair<double, double> PlotDCAMFT(std::string histName)
   return {};
 }
 
-std::pair<double, double> PlotDCAMCH(std::string histName)
+std::pair<double, double> PlotDCAMCH(TString muonQaId, std::string histName)
 {
-  std::string fullHistName = std::string("muon-qa/Alignment/same-event/") + histName;
+  std::string fullHistName = std::string(Form("%s/Alignment/same-event/", muonQaId.Data())) + histName;
   TH1* histogram = GetTH1(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram << std::endl;
   if (!histogram)
@@ -412,12 +413,12 @@ void PlotDXYProjection(TString label, const char* fullHistName, const char* full
   histDxVsY = histogramMean;
 }
 
-std::pair<double, double> PlotDXY(TString label, std::string histName, TCanvas& c, bool printFits = false)
+std::pair<double, double> PlotDXY(TString muonQaId, TString label, std::string histName, TCanvas& c, bool printFits = false)
 {
   c.Clear();
   c.Divide(2, 2);
 
-  std::string fullHistName = std::string("muon-qa/Alignment/same-event/Residuals/") + histName;
+  std::string fullHistName = std::string(Form("%s/Alignment/same-event/Residuals/", muonQaId.Data())) + histName;
   TH2* histogram2 = GetTH2(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram2 << std::endl;
   if (!histogram2) return {};
@@ -425,7 +426,7 @@ std::pair<double, double> PlotDXY(TString label, std::string histName, TCanvas& 
   c.cd(1);
   histogram2->Draw("col");
 
-  std::string fullHistNameME = std::string("muon-qa/Alignment/mixed-event/Residuals/") + histName;
+  std::string fullHistNameME = std::string(Form("%s/Alignment/mixed-event/Residuals/", muonQaId.Data())) + histName;
   TH2* histogram2ME = GetTH2(fAnalysisResults, fullHistNameME);
 
   c.cd(2);
@@ -485,14 +486,14 @@ std::pair<double, double> PlotDXY(TString label, std::string histName, TCanvas& 
   //return {fcb.GetParameter(4), fgaus.GetParError(4)};
 }
 
-std::array<std::pair<double, double>, 2> PlotDXYvsDE(TString label, std::string histName, int chamber, TCanvas& c, bool printFits = false)
+std::array<std::pair<double, double>, 2> PlotDXYvsDE(TString muonQaId, TString label, std::string histName, int chamber, TCanvas& c, bool printFits = false)
 {
   std::array<std::pair<double, double>, 2> result;
 
   c.Clear();
   c.Divide(2, 2);
 
-  std::string fullHistName = std::string("muon-qa/Alignment/same-event/Residuals/") + histName;
+  std::string fullHistName = std::string(Form("%s/Alignment/same-event/Residuals/", muonQaId.Data())) + histName;
   TH2* histogram2 = GetTH2(fAnalysisResults, fullHistName);
   //std::cout << fullHistName << " -> " << histogram2 << std::endl;
   if (!histogram2) return {};
@@ -500,7 +501,7 @@ std::array<std::pair<double, double>, 2> PlotDXYvsDE(TString label, std::string 
   c.cd(1);
   histogram2->Draw("col");
 
-  std::string fullHistNameME = std::string("muon-qa/Alignment/mixed-event/Residuals/") + histName;
+  std::string fullHistNameME = std::string(Form("%s/Alignment/mixed-event/Residuals/", muonQaId.Data())) + histName;
   TH2* histogram2ME = GetTH2(fAnalysisResults, fullHistNameME);
 
   c.cd(2);
@@ -731,10 +732,11 @@ void PlotZTrendPNLR(TString label, TFile *fOutput, int n, double* xv, std::array
   c.Write();
 }
 
-void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> vLabels, std::vector<Style_t> vLineStyles, std::vector<Width_t> vLineWidths)
+void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> vMuonQaIds, std::vector<TString> vLabels, std::vector<Style_t> vLineStyles, std::vector<Width_t> vLineWidths)
 {
   for (Int_t i = 0; i < vfNames.size(); i++) {
     TString fName = vfNames[i];
+    TString muonQaId = vMuonQaIds[i];
     TString label = vLabels[i];
     Style_t lineStyle = vLineStyles[i];
     Width_t lineWidth = vLineWidths[i];
@@ -789,7 +791,7 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
       int i = (q < 2) ? 0 : 1;
       // left/right
       int j = (q == 1 || q == 2) ? 0 : 1;
-      PlotDCAMFT(std::string("DCA/MFT/") + quadrants[q] + "/DCA_x_vs_z");
+      PlotDCAMFT(muonQaId, std::string("DCA/MFT/") + quadrants[q] + "/DCA_x_vs_z");
     }
     c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
     fOutput->cd();
@@ -804,20 +806,7 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
       int i = (q < 2) ? 0 : 1;
       // left/right
       int j = (q == 1 || q == 2) ? 0 : 1;
-      PlotDCAProjection(label, std::string("DCA/MFT/") + quadrants[q] + "/DCA_x_vs_z", -0.1, 0.1, 1, c, false);
-    }
-    c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
-
-    for (int q = 0; q < quadrants.size(); q++) {
-      if (q == 0) c.cd(2);
-      if (q == 1) c.cd(1);
-      if (q == 2) c.cd(3);
-      if (q == 3) c.cd(4);
-      // top/bottom
-      int i = (q < 2) ? 0 : 1;
-      // left/right
-      int j = (q == 1 || q == 2) ? 0 : 1;
-      PlotDCAMFT(std::string("DCA/MFT/") + quadrants[q] + "/DCA_y_vs_z");
+      PlotDCAProjection(muonQaId, label, fOutput, std::string("DCA/MFT/") + quadrants[q] + "/DCA_x_vs_z", -0.1, 0.1, 1, c, false);
     }
     c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
     fOutput->cd();
@@ -832,9 +821,26 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
       int i = (q < 2) ? 0 : 1;
       // left/right
       int j = (q == 1 || q == 2) ? 0 : 1;
-      PlotDCAProjection(label, std::string("DCA/MFT/") + quadrants[q] + "/DCA_y_vs_z", -0.1, 0.1, 1, c, false);
+      PlotDCAMFT(muonQaId, std::string("DCA/MFT/") + quadrants[q] + "/DCA_y_vs_z");
     }
     c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
+    fOutput->cd();
+    c.Write();
+
+    for (int q = 0; q < quadrants.size(); q++) {
+      if (q == 0) c.cd(2);
+      if (q == 1) c.cd(1);
+      if (q == 2) c.cd(3);
+      if (q == 3) c.cd(4);
+      // top/bottom
+      int i = (q < 2) ? 0 : 1;
+      // left/right
+      int j = (q == 1 || q == 2) ? 0 : 1;
+      PlotDCAProjection(muonQaId, label, fOutput, std::string("DCA/MFT/") + quadrants[q] + "/DCA_y_vs_z", -0.1, 0.1, 1, c, false);
+    }
+    c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
+    fOutput->cd();
+    c.Write();
 
     //return;
 
@@ -848,7 +854,7 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
         int i = (q < 2) ? 0 : 1;
         // left/right
         int j = (q == 1 || q == 2) ? 0 : 1;
-        DCAx[i][j][k] = PlotDCAMCH(std::string("DCA/MCH/") + quadrants[q] + ((k == 0) ? "/DCA_x_pos" : "/DCA_x_neg"));
+        DCAx[i][j][k] = PlotDCAMCH(muonQaId, std::string("DCA/MCH/") + quadrants[q] + ((k == 0) ? "/DCA_x_pos" : "/DCA_x_neg"));
       }
       c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
     }
@@ -863,7 +869,7 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
         int i = (q < 2) ? 0 : 1;
         // left/right
         int j = (q == 1 || q ==2) ? 0 : 1;
-        DCAy[i][j][k] = PlotDCAMCH(std::string("DCA/MCH/") + quadrants[q] + ((k == 0) ? "/DCA_y_pos" : "/DCA_y_neg"));
+        DCAy[i][j][k] = PlotDCAMCH(muonQaId, std::string("DCA/MCH/") + quadrants[q] + ((k == 0) ? "/DCA_y_pos" : "/DCA_y_neg"));
       }
       c.SaveAs(Form("%s_residuals_AO2D.pdf", label.Data()));
     }
@@ -876,7 +882,7 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
         for (int j = 0; j < 2; j++) {
           bool print = false;
           //if (chamber == 0 && i == 0 && j == 0) print = true;
-          PlotDXY(label, "MFT/" + topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dx_vs_phi", c, print);
+          PlotDXY(muonQaId, label, "MFT/" + topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dx_vs_phi", c, print);
           //histDxVsY->SetTitle(std::format("{} {}-{} CH{}", histDxVsY->GetTitle(), topBottom[i], posNeg[j], (k+1)).c_str());
           //histDxVsY->SetTitle("TOTO");
           dxVsPhiHistograms[chamber][i][j] = histDxVsY;
@@ -886,7 +892,7 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
         for (int j = 0; j < 2; j++) {
           bool print = false;
           //if (i == 9 && j == 0) print = true;
-          PlotDXY(label, "MFT/" + topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dy_vs_phi", c, print);
+          PlotDXY(muonQaId, label, "MFT/" + topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dy_vs_phi", c, print);
           //histDxVsY->SetTitle(std::format("{} {}-{} CH{}", histDxVsY->GetTitle(), topBottom[i], posNeg[j], (k+1)).c_str());
           dyVsPhiHistograms[chamber][i][j] = histDxVsY;
         }
@@ -930,7 +936,7 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
         for (int j = 0; j < 2; j++) {
           bool print = false;
           //if (chamber == 9 && i == 0 && j == 0) print = true;
-          auto result = PlotDXYvsDE(label, "MFT/" + topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dx_vs_de", chamber + 1, c, print);
+          auto result = PlotDXYvsDE(muonQaId, label, "MFT/" + topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dx_vs_de", chamber + 1, c, print);
           meanDx_LR_TB_PN[i][j][0][chamber] = result[0];
           meanDx_LR_TB_PN[i][j][1][chamber] = result[1];
           //histDxVsY->SetTitle(std::format("{} {}-{} CH{}", histDxVsY->GetTitle(), topBottom[i], posNeg[j], (k+1)).c_str());
@@ -943,7 +949,7 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
           bool print = false;
           //if (chamber == 9 && i == 0 && j == 0) print = true;
           if (chamber == 9 && i == 0 && j == 1) print = true;
-          auto result = PlotDXYvsDE(label, "MFT/" + topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dy_vs_de", chamber + 1, c, print);
+          auto result = PlotDXYvsDE(muonQaId, label, "MFT/" + topBottom[i] + "/" + posNeg[j] + "/CH" + std::to_string(chamber + 1) + "/dy_vs_de", chamber + 1, c, print);
           meanDy_LR_TB_PN[i][j][0][chamber] = result[0];
           meanDy_LR_TB_PN[i][j][1][chamber] = result[1];
           //histDxVsY->SetTitle(std::format("{} {}-{} CH{}", histDxVsY->GetTitle(), topBottom[i], posNeg[j], (k+1)).c_str());
@@ -1132,23 +1138,122 @@ void skeleton_plot_residuals(std::vector<TString> vfNames, std::vector<TString> 
 void plot_residuals_AO2D_Chi() 
 {
   std::vector<TString> vfNames;
+  std::vector<TString> vMuonQaIds; // different configurations are combined into one train in Hyperloop, need to specifiy
   std::vector<TString> vLabels;
-  std::vector<Style_t> vLineStyles;
-  std::vector<Width_t> vLineWidths;
+  std::vector<Style_t> vLineStyles; // not used
+  std::vector<Width_t> vLineWidths; // not used
 
+  /*
   vfNames.push_back("AnalysisResults_LHC24aq_pass1_small_muon_qa_test.root");
+  vMuonQaId.push_back("muon-qa");
   vLabels.push_back("LHC24aq_pass1_small");
   vLineStyles.push_back(1);
   vLineWidths.push_back(1);
+  */
 
+  /*
   vfNames.push_back("AnalysisResults_LHC24an_pass1_skimmed_small_muon_qa_test.root");
+  vMuonQaId.push_back("muon-qa");
   vLabels.push_back("LHC24an_pass1_skimmed_small");
   vLineStyles.push_back(3);
   vLineWidths.push_back(2);
+  */
+
+  // --------------------
+  // --------------------
+  // LHC24aq_pass1_medium
+  vfNames.push_back("AnalysisResults_LHC24aq_pass1_medium.root");
+  vMuonQaIds.push_back("muon-qa_id30215"); // NO MCH-realign, NO MFT-realign
+  vLabels.push_back("LHC24aq_pass1_medium_NO_MCH-realign_NO_MFT-realign");
+
+  vfNames.push_back("AnalysisResults_LHC24aq_pass1_medium.root");
+  vMuonQaIds.push_back("muon-qa_id30603"); // NO MCH-realign, YES MFT-realign
+  vLabels.push_back("LHC24aq_pass1_medium_NO_MCH-realign_YES_MFT-realign");
+  // --------------------
+  // --------------------
+
+  // --------------------
+  // --------------------
+  // LHC24an_pass1_skimmed_small
+  vfNames.push_back("AnalysisResults_LHC24an_pass1_skimmed_small.root");
+  vMuonQaIds.push_back("muon-qa_id30217"); // NO MCH-realign, NO MFT-realign
+  vLabels.push_back("LHC24an_pass1_skimmed_small_NO_MCH-realign_NO_MFT-realign");
+
+  vfNames.push_back("AnalysisResults_LHC24an_pass1_skimmed_small.root");
+  vMuonQaIds.push_back("muon-qa_id30602"); // NO MCH-realign, YES MFT-realign
+  vLabels.push_back("LHC24an_pass1_skimmed_small_NO_MCH-realign_YES_MFT-realign");
+
+  vfNames.push_back("AnalysisResults_LHC24an_pass1_skimmed_small.root");
+  vMuonQaIds.push_back("muon-qa_id30619"); // MCH only bottom realign, NO MFT-realign
+  vLabels.push_back("LHC24an_pass1_skimmed_small_only_bottom_MCH-realign_NO_MFT-realign");
+
+  vfNames.push_back("AnalysisResults_LHC24an_pass1_skimmed_small.root");
+  vMuonQaIds.push_back("muon-qa_id30620"); // MCH top and bottom realign, NO MFT-realign
+  vLabels.push_back("LHC24an_pass1_skimmed_small_top_and_bottom_MCH-realign_NO_MFT-realign");
+  // --------------------
+  // --------------------
+
+  // --------------------
+  // --------------------
+  // LHC24am_pass1_skimmed
+  vfNames.push_back("AnalysisResults_LHC24am_pass1_skimmed.root");
+  vMuonQaIds.push_back("muon-qa_id30217"); // NO MCH-realign, NO MFT-realign
+  vLabels.push_back("LHC24am_pass1_skimmed_NO_MCH-realign_NO_MFT-realign");
+
+  vfNames.push_back("AnalysisResults_LHC24am_pass1_skimmed.root");
+  vMuonQaIds.push_back("muon-qa_id30602"); // NO MCH-realign, YES MFT-realign
+  vLabels.push_back("LHC24am_pass1_skimmed_NO_MCH-realign_YES_MFT-realign");
+
+  vfNames.push_back("AnalysisResults_LHC24am_pass1_skimmed.root");
+  vMuonQaIds.push_back("muon-qa_id30619"); // MCH only bottom realign, NO MFT-realign
+  vLabels.push_back("LHC24am_pass1_skimmed_only_bottom_MCH-realign_NO_MFT-realign");
+
+  vfNames.push_back("AnalysisResults_LHC24am_pass1_skimmed.root");
+  vMuonQaIds.push_back("muon-qa_id30620"); // MCH top and bottom realign, NO MFT-realign
+  vLabels.push_back("LHC24am_pass1_skimmed_top_and_bottom_MCH-realign_NO_MFT-realign");
+  // --------------------
+  // --------------------
+
+  // --------------------
+  // --------------------
+  // LHC24aq_pass1_medium
+  vfNames.push_back("AnalysisResults_LHC23za_apass4_skimmed.root");
+  vMuonQaIds.push_back("muon-qa_id30604"); // NO MCH-realign, NO MFT-realign
+  vLabels.push_back("LHC23za_apass4_skimmed_NO_MCH-realign_NO_MFT-realign");
+
+  vfNames.push_back("AnalysisResults_LHC23za_apass4_skimmed.root");
+  vMuonQaIds.push_back("muon-qa_id30605"); // NO MCH-realign, YES MFT-realign
+  vLabels.push_back("LHC23za_apass4_skimmed_NO_MCH-realign_YES_MFT-realign");
+  // --------------------
+  // --------------------
+
+  // LHC24aq_pass1_medium
+  vfNames.push_back("AnalysisResults_LHC23zs_apass4_skimmed.root");
+  vMuonQaIds.push_back("muon-qa_id30604"); // NO MCH-realign, NO MFT-realign
+  vLabels.push_back("LHC23zs_apass4_skimmed_NO_MCH-realign_NO_MFT-realign");
+
+  vfNames.push_back("AnalysisResults_LHC23zs_apass4_skimmed.root");
+  vMuonQaIds.push_back("muon-qa_id30605"); // NO MCH-realign, YES MFT-realign
+  vLabels.push_back("LHC23zs_apass4_skimmed_NO_MCH-realign_YES_MFT-realign");
+  // --------------------
+  // --------------------
+
+  // --------------------
+  // --------------------
+  // LHC24ap_pass1_small
+  vfNames.push_back("AnalysisResults_LHC24ap_pass1_small.root");
+  vMuonQaIds.push_back("muon-qa_id30215"); // NO MCH-realign, NO MFT-realign
+  vLabels.push_back("LHC24ap_pass1_small_NO_MCH-realign_NO_MFT-realign");
+
+  vfNames.push_back("AnalysisResults_LHC24ap_pass1_small.root");
+  vMuonQaIds.push_back("muon-qa_id30603"); // NO MCH-realign, YES MFT-realign
+  vLabels.push_back("LHC24ap_pass1_small_NO_MCH-realign_YES_MFT-realign");
+  // --------------------
+  // --------------------
 
   // skeleton_plot_invmass("AnalysisResults_LHC24aq_pass1_small_muon_qa_test.root", "LHC24aq_pass1_small", 1, 1);
   // skeleton_plot_invmass("AnalysisResults_LHC24an_pass1_skimmed_small_muon_qa_test.root", "LHC24an_pass1_skimmed_small", 3, 2);
-  skeleton_plot_residuals(vfNames, vLabels, vLineStyles, vLineWidths);
+  skeleton_plot_residuals(vfNames, vMuonQaIds, vLabels, vLineStyles, vLineWidths);
   // c_MuonKine_MuonCuts->Draw();
   // c_MuonKine_MuonCuts->SaveAs("Plots/invmass_AO2D_MuonKine_MuonCuts.pdf");
 }
